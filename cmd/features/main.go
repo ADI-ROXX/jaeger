@@ -1,4 +1,7 @@
-package features
+// Copyright (c) 2025 The Jaeger Authors.
+// SPDX-License-Identifier: Apache-2.0
+
+package main
 
 import (
 	"fmt"
@@ -36,6 +39,7 @@ func beautify(data string) string {
 	}
 	return combined_split
 }
+
 func main() {
 	data, err := io.ReadAll(os.Stdin)
 	if err != nil {

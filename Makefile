@@ -218,6 +218,10 @@ generate-mocks: $(MOCKERY)
 certs:
 	cd pkg/config/tlscfg/testdata && ./gen-certs.sh
 
+.PHONY: features
+features:
+	go run ./cmd/jaeger help | go run ./cmd/features
+
 .PHONY: certs-dryrun
 certs-dryrun:
 	cd pkg/config/tlscfg/testdata && ./gen-certs.sh -d
