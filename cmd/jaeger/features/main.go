@@ -19,12 +19,7 @@ import (
 	"github.com/jaegertracing/jaeger/pkg/version"
 )
 
-
-
-
-
-
-func main(){
+func main() {
 	info := component.BuildInfo{
 		Command:     "jaeger",
 		Description: internal.GetDescription(),
@@ -47,7 +42,7 @@ func main(){
 		},
 	}
 
-	fmt.Println("\n"+internal.GetDescription())
-	fmt.Println("List of feature gate identifiers. Prefix with '-' to disable the feature. '+' or no prefix will enable the feature.\n")
- 	otelcol.FeatureCommand(settings)
+	fmt.Println("\n" + internal.GetDescription())
+	fmt.Println("List of feature gate identifiers. Prefix with '-' to disable the feature. '+' or no prefix will enable the feature.\n ")
+	otelcol.FeatureCommand(settings)
 }

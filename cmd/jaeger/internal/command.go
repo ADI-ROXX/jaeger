@@ -30,7 +30,6 @@ func GetDescription() string {
 	return description
 }
 
-
 func Command() *cobra.Command {
 	info := component.BuildInfo{
 		Command:     "jaeger",
