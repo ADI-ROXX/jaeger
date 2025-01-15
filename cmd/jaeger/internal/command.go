@@ -26,6 +26,11 @@ var yamlAllInOne embed.FS
 
 const description = "Jaeger backend v2"
 
+func GetDescription() string {
+	return description
+}
+
+
 func Command() *cobra.Command {
 	info := component.BuildInfo{
 		Command:     "jaeger",

@@ -220,7 +220,7 @@ certs:
 
 .PHONY: features
 features:
-	go run ./cmd/jaeger help | go run ./cmd/features
+	go run ./cmd/jaeger/features 
 
 .PHONY: certs-dryrun
 certs-dryrun:
