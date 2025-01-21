@@ -9,29 +9,25 @@ import (
 	"go.opentelemetry.io/collector/featuregate"
 )
 
-type flagValue struct {
-	reg *featuregate.Registry
-}
+
 
 func DisplayFeatures() {
-	reg := featuregate.GlobalRegistry()
-	f := &flagValue{reg: reg}
-	if f.reg == nil {
+	f := featuregate.GlobalRegistry()
+	if f == nil {
 		return
 	}
-	f.reg.VisitAll(func(g *featuregate.Gate) {
-		id := g.ID()
-		desc := g.Description()
-		fmt.Println("Feature:\t" + id)
+	f.VisitAll(func(g *featuregate.Gate) {
+		
+		fmt.Printf("Feature:\t%s\n",g.ID())
 		if !g.IsEnabled() {
-			fmt.Println("Default state:\t" + "On")
+			fmt.Printf("Default state:\t%s\n","On")
 		} else {
-			fmt.Println("Default state:\t" + "Off")
+			fmt.Printf("Default state:\t%s\n","Off")
 		}
-		fmt.Println("Description:\t" + desc)
-		ref := g.ReferenceURL()
-		if ref != "" {
-			fmt.Println("ReferenceURL:\t" + ref)
+		fmt.Printf("Description:\t%s\n",g.Description())
+		
+		if ref := g.ReferenceURL(); ref != "" {
+			fmt.Printf("ReferenceURL:\t%s\n",ref)
 		}
 		fmt.Println()
 	})
