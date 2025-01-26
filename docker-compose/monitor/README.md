@@ -79,6 +79,7 @@ docker compose -f docker-compose-v1.yml up
 ```
 
 **Tips:**
+
 - Let the application run for a couple of minutes to ensure there is enough time series data to plot in the dashboard.
 - Navigate to Jaeger UI at http://localhost:16686/ and inspect the Monitor tab. Select `redis` service from the dropdown to see more than one endpoint.
 - To visualize the raw metrics stored on the Prometheus server (for debugging and local development use cases), use the built-in Prometheus UI at http://localhost:9090/query. For example, http://localhost:9090/query?g0.expr=traces_span_metrics_calls_total&g0.tab=0&g0.range_input=5m
@@ -92,13 +93,13 @@ make clean-all
 To use an official published image of Jaeger, specify the version via environment variable:
 
 ```shell
-JAEGER_IMAGE_TAG=2.0.0 docker compose -f docker-compose.yml up
+JAEGER_VERSION=2.0.0 docker compose -f docker-compose.yml up
 ```
 
 or for Jaeger v1:
 
 ```shell
-JAEGER_IMAGE_TAG=1.62.0 docker compose -f docker-compose-v1.yml up  
+JAEGER_VERSION=1.62.0 docker compose -f docker-compose-v1.yml up
 ```
 
 ## Development
@@ -125,11 +126,13 @@ We will use [tracegen](https://github.com/jaegertracing/jaeger/tree/main/cmd/tra
 to emit traces to the OpenTelemetry Collector which, in turn, will aggregate the trace data into metrics.
 
 Start the local stack needed for SPM, if not already done:
+
 ```shell
 docker compose up
 ```
 
 Generate a specific number of traces with:
+
 ```shell
 docker run --env OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="http://otel_collector:4317" \
   --network monitor_backend \
@@ -140,6 +143,7 @@ docker run --env OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="http://otel_collector:4317"
 ```
 
 Or, emit traces over a period of time with:
+
 ```shell
 docker run --env OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="http://otel_collector:4317" \
   --network monitor_backend \
@@ -161,6 +165,7 @@ Then navigate to the Monitor tab at http://localhost:16686/monitor to view the R
 ## Querying the HTTP API
 
 ### Example 1
+
 Fetch call rates for both the driver and frontend services, grouped by operation, from now,
 looking back 1 second with a sliding rate-calculation window of 1m and step size of 1 millisecond
 
@@ -168,8 +173,8 @@ looking back 1 second with a sliding rate-calculation window of 1m and step size
 curl "http://localhost:16686/api/metrics/calls?service=driver&service=frontend&groupByOperation=true&endTs=$(date +%s)000&lookback=1000&step=100&ratePer=60000" | jq .
 ```
 
-
 ### Example 2
+
 Fetch P95 latencies for both the driver and frontend services from now,
 looking back 1 second with a sliding rate-calculation window of 1m and step size of 1 millisecond, where the span kind is either "server" or "client".
 
@@ -178,13 +183,17 @@ curl "http://localhost:16686/api/metrics/latencies?service=driver&service=fronte
 ```
 
 ### Example 3
+
 Fetch error rates for both driver and frontend services using default parameters.
+
 ```bash
 curl "http://localhost:16686/api/metrics/errors?service=driver&service=frontend" | jq .
 ```
 
 ### Example 4
+
 Fetch the minimum step size supported by the underlying metrics store.
+
 ```bash
 curl "http://localhost:16686/api/metrics/minstep" | jq .
 ```
@@ -196,6 +205,7 @@ curl "http://localhost:16686/api/metrics/minstep" | jq .
 `/api/metrics/{metric_type}?{query}`
 
 Where (Backus-Naur form):
+
 ```
 metric_type = 'latencies' | 'calls' | 'errors'
 
@@ -244,7 +254,6 @@ spanKindType = 'unspecified' | 'internal' | 'server' | 'client' | 'producer' | '
   - Optional with default: 'server'
 ```
 
-
 ## Min Step
 
 `/api/metrics/minstep`
@@ -257,6 +266,7 @@ e.g. a min step of 1 means the backend can only return data points that are at l
 The response data model is based on [`MetricsFamily`](https://github.com/jaegertracing/jaeger/blob/main/model/proto/metrics/openmetrics.proto#L53).
 
 For example:
+
 ```
 {
   "name": "service_call_rate",
@@ -290,9 +300,10 @@ For example:
   ]
 ...
 }
-  ```
+```
 
 If the `groupByOperation=true` parameter is set, the response will include the operation name in the labels like so:
+
 ```
       "labels": [
         {
@@ -313,6 +324,7 @@ As this is feature is opt-in only, disabling metrics querying simply involves om
 For example, try removing the `METRICS_STORAGE_TYPE=prometheus` environment variable from the [docker-compose.yml](./docker-compose.yml) file.
 
 Then querying any metrics endpoints results in an error message:
+
 ```
 $ curl http://localhost:16686/api/metrics/minstep | jq .
 {
