@@ -33,7 +33,7 @@ PROTO_GOGO_MAPPINGS := $(shell echo \
 		Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types \
 		Mgoogle/protobuf/empty.proto=github.com/gogo/protobuf/types \
 		Mgoogle/api/annotations.proto=github.com/gogo/googleapis/google/api \
-		Mmodel.proto=github.com/jaegertracing/jaeger/model \
+		Mmodel.proto=github.com/jaegertracing/jaeger-idl/model/v1 \
 	| $(SED) 's/  */,/g')
 
 OPENMETRICS_PROTO_FILES=$(wildcard model/proto/metrics/*.proto)
@@ -98,16 +98,14 @@ patch-api-v2:
 proto-openmetrics:
 	$(call print_caption, Processing OpenMetrics Protos)
 	$(foreach file,$(OPENMETRICS_PROTO_FILES),$(call proto_compile, proto-gen/api_v2/metrics, $(file)))
-	@# TODO why is this file included in model/proto/metrics/ in the first place?
-	rm proto-gen/api_v2/metrics/otelmetric.pb.go
 
 .PHONY: proto-storage-v1
 proto-storage-v1:
-	$(call proto_compile, proto-gen/storage_v1, plugin/storage/grpc/proto/storage.proto, -Iplugin/storage/grpc/proto)
+	$(call proto_compile, proto-gen/storage_v1, internal/storage/v1/grpc/proto/storage.proto, -Iinternal/storage/v1/grpc/proto)
 	$(PROTOC) \
-		-Iplugin/storage/grpc/proto \
-		--go_out=$(PWD)/plugin/storage/grpc/proto/ \
-		plugin/storage/grpc/proto/storage_test.proto
+		-Iinternal/storage/v1/grpc/proto \
+		--go_out=$(PWD)/internal/storage/v1/grpc/proto/ \
+		internal/storage/v1/grpc/proto/storage_test.proto
 
 .PHONY: proto-hotrod
 proto-hotrod:
