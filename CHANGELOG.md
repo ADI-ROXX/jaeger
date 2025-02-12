@@ -1,3 +1,47 @@
+## 1.66.7 (2025-02-05)
+
+### Notable Changes
+
+./scripts/release/notes.py --exclude-dependabot --verbose
+There are 15 new commits since v2.3.0
+https://api.github.com/repos/jaegertracing/jaeger/commits?per_page=15
+Retrieved 15 commits
+[===                                               ] 6.67%[======                                            ] 13.33%[==========                                        ] 20.00%[=============                                     ] 26.67%[================                                  ] 33.33%[====================                              ] 40.00%[=======================                           ] 46.67%[==========================                        ] 53.33%[==============================                    ] 60.00%[=================================                 ] 66.67%[====================================              ] 73.33%[========================================          ] 80.00%[===========================================       ] 86.67%[==============================================    ] 93.33%[==================================================] 100.00%
+
+### Backend Changes
+
+#### ⛔ Breaking Changes
+
+* [query] drop support for shared grpc/http query server ports ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6695](https://github.com/jaegertracing/jaeger/pull/6695))
+
+#### 🐞 Bug fixes, Minor Improvements
+
+* [storage] change storage extension to hold v2 factories ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6699](https://github.com/jaegertracing/jaeger/pull/6699))
+* Fix go alpine version to 1.24.0 ([@yurishkuro](https://github.com/yurishkuro) in [#6713](https://github.com/jaegertracing/jaeger/pull/6713))
+* [refactor] conditionally implement interfaces in v1adapter factory ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6710](https://github.com/jaegertracing/jaeger/pull/6710))
+* [fix] revert changes to tracereader adapter ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6705](https://github.com/jaegertracing/jaeger/pull/6705))
+* [refactor] conditionally implement interfaces in `v1adapter` ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6701](https://github.com/jaegertracing/jaeger/pull/6701))
+* [refactor] use `gettracestorefactory` instead of `getstoragefactory` ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6696](https://github.com/jaegertracing/jaeger/pull/6696))
+* [storage] add helper to storage extension for retrieving purger ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6694](https://github.com/jaegertracing/jaeger/pull/6694))
+* Import nop receiver/exporter and add a sample query service config ([@danish9039](https://github.com/danish9039) in [#6687](https://github.com/jaegertracing/jaeger/pull/6687))
+* [storage] add helper to storage extension for retrieving sampling store factory ([@mahadzaryab1](https://github.com/mahadzaryab1) in [#6689](https://github.com/jaegertracing/jaeger/pull/6689))
+
+
+### 📊 UI Changes
+
+#### 🐞 Bug fixes, Minor Improvements
+
+* Add config option to allow displaying full traceid ([@avinpy-255](https://github.com/avinpy-255) in [#2536](https://github.com/jaegertracing/jaeger-ui/pull/2536))
+
+### Submodule Updates
+
+* jaeger-ui: update version (if applicable)
+
+### Release Managers
+
+(Rotate release managers table here; add your name at the bottom)
+
+
 ### 🇷🇺 A message to people of Russia
 
 If you currently live in Russia, please read [this message](./_To_People_of_Russia.md).
